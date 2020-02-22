@@ -124,7 +124,7 @@ class SignupPage extends Component {
             <span>
               <span className="text-white mr-1">Already have an account?</span>
               <span>
-                <Link className="text-blue-right" to="##">Login</Link>
+                <Link className="text-blue-right" to="/login">Login</Link>
               </span>
             </span>
           </div>

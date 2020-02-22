@@ -1,4 +1,6 @@
 /* eslint-disable no-restricted-globals */
+
+/** SIGNUP */
 // handle full names
 export const handleFullNameTyping = (component) => {
   const {
@@ -126,7 +128,7 @@ export const handleSignupBtnClicked = (component) => {
             const userData = {
               fullName, yearOfBirth, email, password,
             };
-            window.localStorage.setItem('userData', userData);
+            window.localStorage.setItem('userData', JSON.stringify(userData));
             component.props.history.push('/user-page');
           } else {
             confirmPasswordErrorDiv.innerHTML = 'You must confirm your password please!';
@@ -142,5 +144,43 @@ export const handleSignupBtnClicked = (component) => {
     }
   } else {
     fullNameErrorDiv.innerHTML = 'Enter your full name please!';
+  }
+};
+
+
+/** LOGIN */
+export const handleLoginTyping = (component) => {
+  const { emailField, passwordField } = component.state.fields;
+  const emailValue = emailField.value;
+  const passwordValue = passwordField.value;
+  if (emailValue) {
+    component.setState({ email: emailValue });
+  }
+  if (passwordValue) {
+    component.setState({ password: passwordValue });
+  }
+};
+
+export const handleLoginBtnClicked = (component) => {
+  const { loginFeedbackDiv, emailField, passwordField } = component.state.fields;
+  const typedEmail = emailField.value;
+  const typedPassword = passwordField.value;
+  const userData = JSON.parse(window.localStorage.getItem('userData'));
+  if (userData) {
+    loginFeedbackDiv.innerHTML = '';
+    const { email, password } = userData;
+    if (typedEmail && typedPassword) {
+      loginFeedbackDiv.innerHTML = '';
+      if (email === typedEmail && password === typedPassword) {
+        loginFeedbackDiv.innerHTML = '';
+        component.props.history.push('/user-page');
+      } else {
+        loginFeedbackDiv.innerHTML = 'Email and Password mismatch';
+      }
+    } else {
+      loginFeedbackDiv.innerHTML = 'Enter your email or password';
+    }
+  } else {
+    loginFeedbackDiv.innerHTML = 'You haven\'t register yet, please click the signup link to go to signup page';
   }
 };

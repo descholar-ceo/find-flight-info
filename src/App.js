@@ -10,6 +10,7 @@ import './styles/elements-styles.css';
 // IMPORTING COMPONENTS
 import SignupPage from './components/SignupPage';
 import UserPage from './components/UserPage';
+import LoginPage from './components/LoginPage';
 
 function App() {
   return (
@@ -24,6 +25,11 @@ function App() {
           exact
           path="/signup"
           component={SignupPage}
+        />
+        <Route
+          exact
+          path="/login"
+          component={LoginPage}
         />
         <Route
           exact
