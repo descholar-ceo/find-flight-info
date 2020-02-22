@@ -1,0 +1,24 @@
+:root{
+--white-color: rgb(228, 226, 229);
+--red-color:rgb(194, 47, 47);
+}
+
+body,html{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: var(--white-color);
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="number"]{
+    padding: 22px;
+    line-height: 20px;
+    font-size: 23px;
+}
+input[type=email]:invalid{
+background-color: var(--red-color);
+}

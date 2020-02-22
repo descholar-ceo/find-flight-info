@@ -1,0 +1,53 @@
+:root{
+--white-color: rgb(228, 226, 229);
+--blue-color: rgb(156, 148, 249);
+--red-color:rgb(194, 47, 47);
+}
+
+/* TEXT ALIGN*/
+.text-center{
+    text-align: center;
+}
+
+.text-white{
+    color: var(--white-color);
+}
+
+.text-red{
+    color: var(--red-color);
+}
+
+.text-blue-right{
+    color: var(--blue-color);
+}
+
+/* TEXT WEIGHT */
+.text-bold{
+    font-weight: bold;
+}
+
+.text-15{
+    font-size: 15px;
+}
+
+/* PLACEHOLDERS */
+::-webkit-input-placeholder {
+  color: var(--white-color);
+  font-size: 20px;
+  font-weight: bold;
+}
+:-ms-input-placeholder {
+  color: var(--white-color);
+  font-size: 20px;
+  font-weight: bold;
+}
+:-moz-placeholder {
+  color: var(--white-color);
+  font-size: 20px;
+  font-weight: bold;
+}
+::-moz-placeholder {
+  color: var(--white-color);
+  font-size: 20px;
+  font-weight: bold;
+}

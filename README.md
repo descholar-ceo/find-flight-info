@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/c70e833fc385c830e826/maintainability)](https://codeclimate.com/github/descholar-ceo/find-flight-info/maintainability)
+
 ## Available Scripts
 
 In the project directory, you can run:
