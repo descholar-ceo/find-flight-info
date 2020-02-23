@@ -25,3 +25,24 @@ background-color: var(--red-color);
 .see-price-btn{
     margin-right: 2px;
 }
+
+/* NAVBAR */
+nav {
+  display: inline-block;
+  text-align: right;
+}
+
+nav ul {
+  list-style-type: none;
+}
+nav li {
+  display: inline-block;
+}
+.sticky-element {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  right: 0;
+  left: 0;
+  top: 0;
+}
