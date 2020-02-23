@@ -1,14 +1,20 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   handleLoginTyping, handleLoginBtnClicked,
 } from '../helpers/handlers';
+import { userLoginAction } from '../actions/functions/auth';
 
 class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.props = {
+      userLogin: PropTypes.func.isRequired,
+    };
   }
 
   componentDidMount() {
@@ -78,4 +84,7 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+const mapStateToProps = (state) => ({
+  dataFromReduxStore: state.myReducers,
+});
+export default connect(mapStateToProps, { userLoginAction })(LoginPage);
