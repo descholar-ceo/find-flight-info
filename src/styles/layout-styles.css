@@ -93,6 +93,12 @@
     height: 100%;
     margin-top: 0;
 }
+.bg-flight-3{
+    background-image: url('../images/flight3.jpg');
+    background-size: cover;
+    height: 100%;
+    margin-top: 0;
+}
 .bg-dark-transparent-50{
     background: rgba(50, 49, 49, 0.50);
 }
@@ -105,4 +111,7 @@
 .bg-purple {
   background-color: rgba(107, 14, 107, 0.98);
   color: var(--white-color);
+}
+.shadows-black{
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.63);
 }

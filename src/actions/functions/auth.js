@@ -17,18 +17,21 @@ export const userLoginAction = (component) => (dispatch) => {
 
 export const isUserLoggedIn = (component) => (dispatch) => {
   const { login } = component.props.dataFromReduxStore;
-  if (login.login) {
-    dispatch({
-      type: REDIRECTION,
-      payload: { redirected: true },
-    });
-    return true;
+  if (login) {
+    if (login.login) {
+      dispatch({
+        type: REDIRECTION,
+        payload: { redirected: true },
+      });
+      return true;
+    }
+    return false;
   }
   return false;
 };
 
 export const userLogoutAction = () => (dispatch) => {
-  window.location.href = '/';
+  window.location.href = '/#/login';
   dispatch({
     type: USER_LOGIN,
     payload: { login: false },
