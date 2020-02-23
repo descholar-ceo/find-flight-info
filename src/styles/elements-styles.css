@@ -22,3 +22,6 @@ input[type="text"], input[type="email"], input[type="password"], input[type="num
 input[type=email]:invalid{
 background-color: var(--red-color);
 }
+.see-price-btn{
+    margin-right: 2px;
+}

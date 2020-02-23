@@ -1,4 +1,28 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-globals */
+import axios from 'axios';
+import allIataCodesAirlines from '../resources/iata-airlines';
+
+/** GENERAL HANDLERS */
+export const handleDatesWithT = (dateToHandle) => {
+  let returnedDate;
+  if (dateToHandle.includes('T')) {
+    returnedDate = dateToHandle.split('T')[0];
+  } else {
+    returnedDate = 'Invalid date format';
+  }
+  return returnedDate;
+};
+
+/** DISPLAY AIRLINES IN AIRLINE FIELD */
+export const displayAirlines = (fields) => {
+  const { airlineField } = fields;
+  allIataCodesAirlines().forEach((currAirline) => {
+    airlineField.add(new Option(currAirline.Airline, currAirline.IATACode));
+  });
+};
 
 /** SIGNUP */
 // handle full names
@@ -102,11 +126,7 @@ export const handleConfirmPasswordTyping = (component) => {
 // HANDLE SIGNUP BUTTON CLICKED
 export const handleSignupBtnClicked = (component) => {
   const {
-    fullName,
-    yearOfBirth,
-    email,
-    password,
-    confirmPassword,
+    fullName, yearOfBirth, email, password, confirmPassword,
   } = component.state;
   const {
     fullNameErrorDiv,
@@ -183,4 +203,144 @@ export const handleLoginBtnClicked = (component) => {
   } else {
     loginFeedbackDiv.innerHTML = 'You haven\'t register yet, please click the signup link to go to signup page';
   }
+};
+
+
+/** USER PAGE */
+// removing previous options
+export const removePreviousOptions = (selectBox) => {
+  for (let i = 0; i < selectBox.options.length - 1; i++) {
+    selectBox.options[i].remove();
+  }
+};
+
+// airline selections
+export const handleAirlineSelection = (component) => {
+  const {
+    currencyField, airlineField, originField, waitingOriginSpan,
+  } = component.state.fields;
+  const selectedAirline = airlineField.value;
+  waitingOriginSpan.classList.add('spinner-border');
+  waitingOriginSpan.classList.remove('text-danger');
+  waitingOriginSpan.classList.remove('text-15');
+  waitingOriginSpan.innerHTML = '';
+
+  removePreviousOptions(originField);
+
+  axios({
+    method: 'GET',
+    url: 'https://travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com/v1/airline-directions',
+    headers: {
+      'content-type': 'application/octet-stream',
+      'x-rapidapi-host': 'travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com',
+      'x-rapidapi-key': '1b75766f4cmsh2b8fe75beed674dp1d1f3fjsn505e0a2090c6',
+      'x-access-token': '0b34683ae4f8945e25adcb88b21735ca',
+    },
+    params: {
+      limit: '100',
+      airline_code: selectedAirline,
+      currency: currencyField.value,
+    },
+  })
+    .then((res) => {
+      const availOrigins = Object.entries(res.data.data);
+      availOrigins.forEach((currOrigin) => {
+        originField.add(new Option(currOrigin[0].split('-')[0]));
+        waitingOriginSpan.classList.remove('spinner-border');
+        waitingOriginSpan.classList.remove('text-danger');
+        waitingOriginSpan.classList.remove('text-15');
+        waitingOriginSpan.innerHTML = '';
+      });
+    })
+    .catch((err) => {
+      waitingOriginSpan.classList.remove('spinner-border');
+      waitingOriginSpan.classList.add('text-danger');
+      waitingOriginSpan.classList.add('text-15');
+      waitingOriginSpan.innerHTML = 'Something wrong!';
+    });
+};
+
+// origin selection
+export const handleOriginSelection = (component) => {
+  const {
+    currencyField, originField, destinationField, waitingDestinationSpan,
+  } = component.state.fields;
+
+  waitingDestinationSpan.classList.add('spinner-border');
+  waitingDestinationSpan.classList.remove('text-danger');
+  waitingDestinationSpan.classList.remove('text-15');
+  waitingDestinationSpan.innerHTML = '';
+
+  removePreviousOptions(destinationField);
+
+  axios({
+    method: 'GET',
+    url: 'https://travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com/v1/city-directions',
+    headers: {
+      'content-type': 'application/octet-stream',
+      'x-rapidapi-host': 'travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com',
+      'x-rapidapi-key': '1b75766f4cmsh2b8fe75beed674dp1d1f3fjsn505e0a2090c6',
+      'x-access-token': '0b34683ae4f8945e25adcb88b21735ca',
+    },
+    params: {
+      origin: originField.value,
+      currency: currencyField.value,
+    },
+  }).then((res) => {
+    const availDestinations = Object.entries(res.data.data);
+    const { currency } = res.data;
+
+    // displaying options for destinations
+    availDestinations.forEach((currDest) => {
+      destinationField.add(new Option(currDest[0]));
+    });
+
+    // saving routes in state
+    component.setState({ availDestinations, currency });
+
+    waitingDestinationSpan.classList.remove('spinner-border');
+    waitingDestinationSpan.classList.remove('text-danger');
+    waitingDestinationSpan.classList.remove('text-15');
+    waitingDestinationSpan.innerHTML = '';
+  }).catch((err) => {
+    waitingDestinationSpan.classList.remove('spinner-border');
+    waitingDestinationSpan.classList.add('text-danger');
+    waitingDestinationSpan.classList.add('text-15');
+    waitingDestinationSpan.innerHTML = 'Something wrong!';
+  });
+};
+
+// destination selection
+export const handleDestinationSelection = (component) => {
+  const { availDestinations, currency } = component.state;
+  const { destinationField, pricesDisplayDiv } = component.state.fields;
+  const selectedDestination = destinationField.value;
+  availDestinations.forEach((currDest) => {
+    if (selectedDestination === currDest[0]) {
+      pricesDisplayDiv.innerHTML = `
+          <div class='width-60-center text-white text-bold text-22'>
+            <div class='row'>
+              <span class='col-md-6'>Origin : </span><br/>
+              <span class='col-md-6'>${currDest[1].origin}</span><br/>
+            </div>
+            <div class='row'>
+              <span class='col-md-6'>Destination : </span><br/>
+              <span class='col-md-6'>${currDest[1].destination}</span><br/>
+            </div>
+            <div class='row'>
+              <span class='col-md-6'>Departure date : </span><br/>
+              <span class='col-md-6'>${handleDatesWithT(currDest[1].departure_at)}</span><br/>
+            </div>
+            <div class='row'>
+              <span class='col-md-6'>Return date : </span><br/>
+              <span class='col-md-6'>${handleDatesWithT(currDest[1].return_at)}</span><br/>
+            </div>
+            <div class='row'>
+              <span class='col-md-6'>Price : </span><br/>
+              <span class='col-md-6'>${currDest[1].price} ${currency}</span><br/>
+            </div>
+          </div>
+          `;
+    }
+  });
 };

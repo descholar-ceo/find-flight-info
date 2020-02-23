@@ -29,6 +29,9 @@
 .text-15{
     font-size: 15px;
 }
+.text-22{
+    font-size: 22px;
+}
 
 /* PLACEHOLDERS */
 ::-webkit-input-placeholder {
