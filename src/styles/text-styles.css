@@ -2,6 +2,8 @@
 --white-color: rgb(228, 226, 229);
 --blue-color: rgb(156, 148, 249);
 --red-color:rgb(194, 47, 47);
+--purple-light-color:rgb(187, 100, 209);
+--orange-color:rgb(245, 165, 165);
 }
 
 /* TEXT ALIGN*/
@@ -21,6 +23,13 @@
     color: var(--blue-color);
 }
 
+.text-purple-light{
+  color: var(--purple-light-color);
+}
+.text-orange{
+  color: var(--orange-color);
+}
+
 /* TEXT WEIGHT */
 .text-bold{
     font-weight: bold;
@@ -31,6 +40,9 @@
 }
 .text-22{
     font-size: 22px;
+}
+.text-30{
+    font-size: 30px;
 }
 
 /* PLACEHOLDERS */

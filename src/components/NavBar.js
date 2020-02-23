@@ -1,6 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   Navbar,
   Collapse,
@@ -11,7 +12,7 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { handleToggler } from '../helpers/handlers';
-import { checkLogin } from '../actions/functions/checkLogin';
+import { isUserLoggedIn, userLogoutAction } from '../actions/functions/auth';
 
 class NavBar extends Component {
   constructor(props) {
@@ -20,18 +21,59 @@ class NavBar extends Component {
       isTogglerOpen: false,
     };
     this.props = {
-      checkLogin: PropTypes.func.isRequired,
+      isUserLoggedIn: PropTypes.func.isRequired,
+      userLogoutAction: PropTypes.func.isRequired,
       dataFromReduxStore: PropTypes.object.isRequired,
     };
   }
 
-  componentDidMount() {
-    // const userData = JSON.parse(window.localStorage.getItem('userData'));
-    this.props.checkLogin(this);
-  }
-
   render() {
     const { isTogglerOpen } = this.state;
+    let navToRender;
+    if (this.props.isUserLoggedIn(this)) {
+      navToRender = (
+        <Nav className="form-inline mt-auto ml-auto" navbar>
+          <nav>
+            <ul>
+              <li>
+                <button
+                  type="button"
+                  className="btn btn-outline-danger btn-sm rounded-border-30"
+                  onClick={() => this.props.userLogoutAction()}
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </Nav>
+      );
+    } else {
+      navToRender = (
+        <Nav className="form-inline mt-auto ml-auto" navbar>
+          <nav>
+            <ul>
+              <li>
+                <NavLink
+                  className="btn btn-primary btn-sm rounded-border-30"
+                  to="/signup"
+                >
+                  Signup
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className="btn btn-success btn-sm rounded-border-30"
+                  to="/login"
+                >
+                  Login
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
+        </Nav>
+      );
+    }
     return (
       <div>
         <Navbar
@@ -40,10 +82,10 @@ class NavBar extends Component {
           className="bg-purple"
         >
           <NavbarBrand href="/">
-            <span>
-              <span>Find</span>
-              <span>Flight</span>
-              <span>Info</span>
+            <span className="text-bold text-30">
+              <span className="text-blue-right">Find</span>
+              <span className="text-purple-light">Flight</span>
+              <span className="text-orange">Info</span>
             </span>
 
           </NavbarBrand>
@@ -54,14 +96,7 @@ class NavBar extends Component {
             id="options-container"
             className="navbar-options"
           >
-
-            <Nav className="form-inline mt-auto ml-auto" navbar>
-              <nav>
-                <ul>
-                  <li>Enter</li>
-                </ul>
-              </nav>
-            </Nav>
+            {navToRender}
           </Collapse>
         </Navbar>
       </div>
@@ -72,4 +107,5 @@ class NavBar extends Component {
 const mapStateToProps = (state) => ({
   dataFromReduxStore: state.myReducers,
 });
-export default connect(mapStateToProps, { checkLogin })(NavBar);
+
+export default connect(mapStateToProps, { isUserLoggedIn, userLogoutAction })(NavBar);
