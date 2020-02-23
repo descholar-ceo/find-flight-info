@@ -24,6 +24,12 @@ export const displayAirlines = (fields) => {
   });
 };
 
+// toggler of navbar
+export const handleToggler = (component) => {
+  const { isTogglerOpen } = component.state;
+  component.setState({ isTogglerOpen: !isTogglerOpen });
+};
+
 /** SIGNUP */
 // handle full names
 export const handleFullNameTyping = (component) => {
