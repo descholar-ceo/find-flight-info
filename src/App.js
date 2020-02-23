@@ -14,18 +14,22 @@ import SignupPage from './components/SignupPage';
 import UserPage from './components/UserPage';
 import LoginPage from './components/LoginPage';
 import NavBar from './components/NavBar';
+import LandingPage from './components/LandingPage';
 
 function App() {
   return (
     <Provider store={store}>
       <div>
         <Router>
+
           <NavBar />
+
           <Route
             exact
             path="/"
-            component={SignupPage}
+            component={LandingPage}
           />
+
           <Route
             exact
             path="/signup"
