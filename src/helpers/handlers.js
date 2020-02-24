@@ -220,51 +220,6 @@ export const removePreviousOptions = (selectBox) => {
   }
 };
 
-// airline selections
-export const handleAirlineSelection = (component) => {
-  const {
-    currencyField, airlineField, originField, waitingOriginSpan,
-  } = component.state.fields;
-  const selectedAirline = airlineField.value;
-  waitingOriginSpan.classList.add('spinner-border');
-  waitingOriginSpan.classList.remove('text-danger');
-  waitingOriginSpan.classList.remove('text-15');
-  waitingOriginSpan.innerHTML = '';
-
-  removePreviousOptions(originField);
-
-  axios({
-    method: 'GET',
-    url: 'https://travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com/v1/airline-directions',
-    headers: {
-      'content-type': 'application/octet-stream',
-      'x-rapidapi-host': 'travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com',
-      'x-rapidapi-key': '1b75766f4cmsh2b8fe75beed674dp1d1f3fjsn505e0a2090c6',
-      'x-access-token': '0b34683ae4f8945e25adcb88b21735ca',
-    },
-    params: {
-      limit: '100',
-      airline_code: selectedAirline,
-      currency: currencyField.value,
-    },
-  })
-    .then((res) => {
-      const availOrigins = Object.entries(res.data.data);
-      availOrigins.forEach((currOrigin) => {
-        originField.add(new Option(currOrigin[0].split('-')[0]));
-        waitingOriginSpan.classList.remove('spinner-border');
-        waitingOriginSpan.classList.remove('text-danger');
-        waitingOriginSpan.classList.remove('text-15');
-        waitingOriginSpan.innerHTML = '';
-      });
-    })
-    .catch((err) => {
-      waitingOriginSpan.classList.remove('spinner-border');
-      waitingOriginSpan.classList.add('text-danger');
-      waitingOriginSpan.classList.add('text-15');
-      waitingOriginSpan.innerHTML = 'Something wrong!';
-    });
-};
 
 // origin selection
 export const handleOriginSelection = (component) => {
@@ -355,4 +310,30 @@ export const handleRedirection = (component) => {
   if (component.props.isUserLoggedIn(component)) {
     component.props.history.push('/user-page');
   }
+};
+
+export const handleListCities = (fields) => {
+  const { originField } = fields;
+  axios({
+    method: 'GET',
+    url: 'https://travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com/data/en-GB/cities.json',
+    headers: {
+      'content-type': 'application/octet-stream',
+      'x-rapidapi-host': 'travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com',
+      'x-rapidapi-key': '1b75766f4cmsh2b8fe75beed674dp1d1f3fjsn505e0a2090c6',
+      'x-access-token': '0b34683ae4f8945e25adcb88b21735ca',
+    },
+  })
+    .then((response) => {
+      const citiesList = response.data;
+
+      if (citiesList) {
+        citiesList.forEach((currCity) => {
+          originField.add(new Option(currCity.name_translations.en, currCity.code));
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
