@@ -155,7 +155,7 @@ export const handleSignupBtnClicked = (component) => {
               fullName, yearOfBirth, email, password,
             };
             window.localStorage.setItem('userData', JSON.stringify(userData));
-            component.props.history.push('/user-page');
+            component.props.userLoginAction(component);
           } else {
             confirmPasswordErrorDiv.innerHTML = 'You must confirm your password please!';
           }
@@ -349,4 +349,10 @@ export const handleDestinationSelection = (component) => {
           `;
     }
   });
+};
+
+export const handleRedirection = (component) => {
+  if (component.props.isUserLoggedIn(component)) {
+    component.props.history.push('/user-page');
+  }
 };

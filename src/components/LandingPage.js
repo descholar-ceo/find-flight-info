@@ -1,17 +1,29 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { isUserLoggedIn } from '../actions/functions/auth';
+import { handleRedirection } from '../helpers/handlers';
 
 class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.props = {
+      isUserLoggedIn: PropTypes.func.isRequired,
+      dataFromReduxStore: PropTypes.object.isRequired,
+    };
+  }
+
+  componentDidMount() {
+    handleRedirection(this);
   }
 
   render() {
     return (
       <div className="bg-flight-3 height-full padding-2">
-        <div className="text-bold text-white shadows-black bg-dark-transparent-50 p-5 width-60-center rounded-border-15 mt-5">
 
+        <div className="text-bold text-white shadows-black bg-dark-transparent-50 p-5 width-60-center rounded-border-15 mt-5">
           <div className="margin-bottom-5">
             <p>
               The world is globalized, more people need to travel more
@@ -49,4 +61,7 @@ class LandingPage extends Component {
   }
 }
 
-export default LandingPage;
+const mapStateToProps = (state) => ({
+  dataFromReduxStore: state.myReducers,
+});
+export default connect(mapStateToProps, { isUserLoggedIn })(LandingPage);
