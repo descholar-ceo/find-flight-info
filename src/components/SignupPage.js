@@ -1,6 +1,9 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { isUserLoggedIn, userLoginAction } from '../actions/functions/auth';
 import {
   handleFullNameTyping,
   handleYearOfBirthFocus,
@@ -9,12 +12,18 @@ import {
   handleConfirmPasswordTyping,
   handleSignupBtnClicked,
   handleEmailTyping,
+  handleRedirection,
 } from '../helpers/handlers';
 
 class SignupPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.props = {
+      isUserLoggedIn: PropTypes.func.isRequired,
+      userLoginAction: PropTypes.func.isRequired,
+      dataFromReduxStore: PropTypes.object.isRequired,
+    };
   }
 
   componentDidMount() {
@@ -31,6 +40,7 @@ class SignupPage extends Component {
       confirmPasswordErrorDiv: document.getElementById('confirmPasswordErrorDiv'),
     };
     this.setState({ fields });
+    handleRedirection(this);
   }
 
   render() {
@@ -134,4 +144,7 @@ class SignupPage extends Component {
   }
 }
 
-export default SignupPage;
+const mapStateToProps = (state) => ({
+  dataFromReduxStore: state.myReducers,
+});
+export default connect(mapStateToProps, { isUserLoggedIn, userLoginAction })(SignupPage);

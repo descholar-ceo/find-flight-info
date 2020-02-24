@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  handleLoginTyping, handleLoginBtnClicked,
+  handleLoginTyping, handleLoginBtnClicked, handleRedirection,
 } from '../helpers/handlers';
-import { userLoginAction } from '../actions/functions/auth';
+import { userLoginAction, isUserLoggedIn } from '../actions/functions/auth';
 
 class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
     this.props = {
-      userLogin: PropTypes.func.isRequired,
+      userLoginAction: PropTypes.func.isRequired,
+      isUserLoggedIn: PropTypes.func.isRequired,
     };
   }
 
@@ -24,6 +25,7 @@ class LoginPage extends Component {
       loginFeedbackDiv: document.getElementById('loginFeedbackDiv'),
     };
     this.setState({ fields });
+    handleRedirection(this);
   }
 
   render() {
@@ -87,4 +89,4 @@ class LoginPage extends Component {
 const mapStateToProps = (state) => ({
   dataFromReduxStore: state.myReducers,
 });
-export default connect(mapStateToProps, { userLoginAction })(LoginPage);
+export default connect(mapStateToProps, { userLoginAction, isUserLoggedIn })(LoginPage);

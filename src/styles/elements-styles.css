@@ -38,11 +38,8 @@ nav ul {
 nav li {
   display: inline-block;
 }
-.sticky-element {
-  position: fixed;
-  z-index: 1;
-  width: 100%;
-  right: 0;
-  left: 0;
-  top: 0;
+
+.entrance-button{
+    margin:-20px auto;
+    line-height: 42px;
 }

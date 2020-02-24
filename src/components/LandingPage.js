@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { isUserLoggedIn } from '../actions/functions/auth';
+import { handleRedirection } from '../helpers/handlers';
 
 class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.props = {
+      isUserLoggedIn: PropTypes.func.isRequired,
+      dataFromReduxStore: PropTypes.object.isRequired,
+    };
+  }
+
+  componentDidMount() {
+    handleRedirection(this);
   }
 
   render() {
     return (
       <div className="bg-flight-3 height-full padding-2">
-        <div className="text-bold text-white shadows-black bg-dark-transparent-50 w-100 p-5 rounded-border-15">
+        <div className="text-bold text-white shadows-black bg-dark-transparent-50 p-5 rounded-border-15">
 
           <div className="margin-bottom-5">
             <p>
@@ -39,7 +51,7 @@ class LandingPage extends Component {
         <div className="width-40-center entrance-button">
           <Link
             to="/signup"
-            className="btn btn-dark rounded-border-15 btn-block btn-sm shadows-black text-22"
+            className="btn btn-primary rounded-border-15 btn-block btn-sm shadows-black text-22"
           >
             Get started!
           </Link>
@@ -49,4 +61,7 @@ class LandingPage extends Component {
   }
 }
 
-export default LandingPage;
+const mapStateToProps = (state) => ({
+  dataFromReduxStore: state.myReducers,
+});
+export default connect(mapStateToProps, { isUserLoggedIn })(LandingPage);
