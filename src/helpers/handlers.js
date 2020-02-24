@@ -24,6 +24,12 @@ export const displayAirlines = (fields) => {
   });
 };
 
+// toggler of navbar
+export const handleToggler = (component) => {
+  const { isTogglerOpen } = component.state;
+  component.setState({ isTogglerOpen: !isTogglerOpen });
+};
+
 /** SIGNUP */
 // handle full names
 export const handleFullNameTyping = (component) => {
@@ -193,7 +199,7 @@ export const handleLoginBtnClicked = (component) => {
       loginFeedbackDiv.innerHTML = '';
       if (email === typedEmail && password === typedPassword) {
         loginFeedbackDiv.innerHTML = '';
-        component.props.history.push('/user-page');
+        component.props.userLoginAction(component);
       } else {
         loginFeedbackDiv.innerHTML = 'Email and Password mismatch';
       }
