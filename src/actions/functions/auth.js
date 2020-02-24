@@ -31,7 +31,7 @@ export const isUserLoggedIn = (component) => (dispatch) => {
 };
 
 export const userLogoutAction = () => (dispatch) => {
-  window.location.href = '/';
+  window.location.href = '/#/login';
   dispatch({
     type: USER_LOGIN,
     payload: { login: false },

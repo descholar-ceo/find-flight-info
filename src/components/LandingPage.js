@@ -10,7 +10,7 @@ class LandingPage extends Component {
   render() {
     return (
       <div className="bg-flight-3 height-full padding-2">
-        <div className="text-bold text-white shadows-black bg-dark-transparent-50 w-100 p-5 rounded-border-15">
+        <div className="text-bold text-white shadows-black bg-dark-transparent-50 p-5 width-60-center rounded-border-15 mt-5">
 
           <div className="margin-bottom-5">
             <p>
@@ -39,7 +39,7 @@ class LandingPage extends Component {
         <div className="width-40-center entrance-button">
           <Link
             to="/signup"
-            className="btn btn-dark rounded-border-15 btn-block btn-sm shadows-black text-22"
+            className="btn btn-primary rounded-border-15 btn-block btn-sm shadows-black text-22"
           >
             Get started!
           </Link>
