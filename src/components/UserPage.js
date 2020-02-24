@@ -1,7 +1,9 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import {
-  displayAirlines, handleAirlineSelection, handleOriginSelection, handleDestinationSelection,
+  handleOriginSelection,
+  handleDestinationSelection,
+  handleListCities,
 } from '../helpers/handlers';
 
 class UserPage extends Component {
@@ -22,7 +24,7 @@ class UserPage extends Component {
       pricesDisplayDiv: document.getElementById('pricesDisplayDiv'),
     };
     this.setState({ fields });
-    displayAirlines(fields);
+    handleListCities(fields, this);
   }
 
   render() {
@@ -45,18 +47,6 @@ class UserPage extends Component {
                 <option value="RWF">Rwandan Franc (RWF)</option>
                 <option value="USD">US Dollar ($)</option>
                 <option value="EUR">Euro (€)</option>
-              </select>
-            </div>
-
-            {/** AIRLINE */}
-            <div className="mb-1 form-row">
-              <span className="col-md-4">Select AIRLINE : </span>
-              <select
-                id="airlineField"
-                className="custom-select-lg custom-select rounded-border-15 text-center bg-light-grey col-md-7"
-                onChange={() => handleAirlineSelection(this)}
-              >
-                <option value="">---Select airline here---</option>
               </select>
             </div>
 
